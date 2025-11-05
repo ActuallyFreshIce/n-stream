@@ -407,7 +407,8 @@ export function FebboxSetup({
                       setFebboxKey(newToken);
                     }}
                     value={febboxKey ?? ""}
-                    placeholder="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDc1MTI2MTksIm5iZiI6MTc0NzUxMjYxOSwiZXhwIjoxNzc4NjE2NjM5LCJkYXRhIjp7InVpZCI6NTI1NTc3LCsudujeI6IjE4NTQ4NmEwMzBjMGNlMWJjY2IzYWJjMjI2OTYwYzQ4dhdhs.qkuTF2aVPu54S0RFJS_ca7rlHuGz_Fe6kWkBydYQoCg"
+                    placeholder="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDc1MTI2
+                  "
                     passwordToggleable
                     className="flex-grow"
                   />
@@ -534,7 +535,9 @@ function RealDebridKeyEdit({
         {realDebridKey !== null ? (
           <>
             <Divider marginClass="my-6 px-8 box-content -mx-8" />
-            <p className="text-white font-bold mb-3">{t("realdebrid.tokenLabel")}</p>
+            <p className="text-white font-bold mb-3">
+              {t("realdebrid.tokenLabel")}
+            </p>
             <div className="flex items-center w-full">
               <StatusCircle type={statusMap[status]} className="mx-2 mr-4" />
               <AuthInputBox
