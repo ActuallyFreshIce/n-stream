@@ -1,5 +1,7 @@
-# P-Stream
-[![P-Stream Image](.github/P-Stream.png)](https://docs.pstream.mov)  
+# Nautics TV
+[![Nautics TV Image](.github/P-Stream.png)](https://docs.pstream.mov)  
+
+> Note: `Nautics TV` is a heavily modified fork of `P-Stream`. If you appreciate the original project, please support the upstream project at https://github.com/p-stream/p-stream and https://docs.pstream.mov.
 
 **I *do not* endorse piracy of any kind I simply enjoy programming and large user counts.**
 
@@ -16,11 +18,11 @@
 ## Links And Resources
 | Service        | Link                                                             | Source Code                                              |
 |----------------|------------------------------------------------------------------|----------------------------------------------------------|
-| P-Stream Docs | [docs](https://docs.pstream.mov)                          | [source code](https://github.com/p-stream/docs)        |
+| Docs (upstream) | [docs](https://docs.pstream.mov)                          | [source code](https://github.com/p-stream/docs)        |
 | Extension      | [extension](https://docs.pstream.mov/extension)                | [source code](https://github.com/p-stream/browser-ext) |
 | Proxy          | [simple-proxy](https://docs.pstream.mov/proxy)              | [source code](https://github.com/p-stream/sudo-proxy)  |             
 | Backend        | [backend](https://server.fifthwit.net)                    | [source code](https://github.com/p-stream/backend)     |
-| Frontend       | [P-Stream](https://docs.pstream.mov/instances)                | [source code](https://github.com/p-stream/p-stream)        |
+| Frontend       | [P-Stream instances](https://docs.pstream.mov/instances)                | [source code](https://github.com/p-stream/p-stream)        |
 | Weblate        | [weblate](https://weblate.pstream.mov)         | |
 
 ***I provide these if you are not able to host yourself, though I do encourage hosting the frontend.***
@@ -36,7 +38,7 @@
 
 
 ## Running Locally
-Type the following commands into your terminal / command line to run P-Stream locally
+Type the following commands into your terminal / command line to run `Nautics TV` locally
 ```bash
 git clone https://github.com/p-stream/p-stream.git
 cd smov
@@ -47,8 +49,8 @@ pnpm run dev
 Then you can visit the local instance [here](http://localhost:5173) or, at local host on port 5173.
 
 
-## Updating a P-Stream Instance
-To update a P-Stream instance you can type the below commands into a terminal at the root of your project.
+## Updating a Nautics TV Instance
+To update a Nautics TV instance you can type the below commands into a terminal at the root of your project.
 ```bash
 git remote add upstream https://github.com/p-stream/p-stream.git
 git fetch upstream # Grab the contents of the new remote source

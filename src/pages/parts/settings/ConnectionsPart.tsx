@@ -363,7 +363,7 @@ export function FebboxSetup({
                           src="https://player.vimeo.com/video/1059834885?h=c3ab398d42&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479"
                           allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
                           className="absolute top-0 left-0 w-full h-full border border-type-secondary rounded-lg bg-black"
-                          title="P-Stream FED API Setup Tutorial"
+                          title="Nautics TV FED API Setup Tutorial"
                         />
                       </div>
                       <br />
@@ -407,7 +407,7 @@ export function FebboxSetup({
                       setFebboxKey(newToken);
                     }}
                     value={febboxKey ?? ""}
-                    placeholder="eyJ0eXAi..."
+                    placeholder="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDc1MTI2MTksIm5iZiI6MTc0NzUxMjYxOSwiZXhwIjoxNzc4NjE2NjM5LCJkYXRhIjp7InVpZCI6NTI1NTc3LCsudujeI6IjE4NTQ4NmEwMzBjMGNlMWJjY2IzYWJjMjI2OTYwYzQ4dhdhs.qkuTF2aVPu54S0RFJS_ca7rlHuGz_Fe6kWkBydYQoCg"
                     passwordToggleable
                     className="flex-grow"
                   />
@@ -443,7 +443,7 @@ export function FebboxSetup({
               {t("fedapi.setup.tokenExample.description")}
             </Paragraph>
             <div className="bg-authentication-inputBg p-4 rounded-lg mb-6 font-mono text-sm break-all">
-              eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDc1MTI2MTksIm5iZiI6MTc0NzUxMjYxOSwiZXhwIjoxNzc4NjE2NjM5LCJkYXRhIjp7InVpZCI6NTI1NTc3LCsudujeI6IjE4NTQ4NmEwMzBjMGNlMWJjY2IzYWJjMjI2OTYwYzQ4dhdhs.qkuTF2aVPu54S0RFJS_ca7rlHuGz_Fe6kWkBydYQoCg
+              eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NDc1MTI2
             </div>
             <Paragraph className="!mt-1 !mb-6 text-type-danger">
               {t("fedapi.setup.tokenExample.warning")}
@@ -534,9 +534,7 @@ function RealDebridKeyEdit({
         {realDebridKey !== null ? (
           <>
             <Divider marginClass="my-6 px-8 box-content -mx-8" />
-            <p className="text-white font-bold mb-3">
-              {t("realdebrid.tokenLabel")}
-            </p>
+            <p className="text-white font-bold mb-3">{t("realdebrid.tokenLabel")}</p>
             <div className="flex items-center w-full">
               <StatusCircle type={statusMap[status]} className="mx-2 mr-4" />
               <AuthInputBox

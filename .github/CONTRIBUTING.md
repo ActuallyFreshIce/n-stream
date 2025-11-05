@@ -1,4 +1,4 @@
-# Contributing Guidelines for P-Stream
+# Contributing Guidelines for Nautics TV
 
 Thank you for investing your time in contributing to our project! Your contribution will be reflected on all of the community hosted instances that are on the latest version.
 
@@ -27,7 +27,7 @@ To get an overview of the project, read the [README](README.md). Here are some r
 
 ## Requesting a feature or reporting a bug
 There are two places where to request features or report bugs:
- - The P-Stream Discord server
+ - The Nautics TV Discord server
  - GitHub Issues
 
 ### Discord Server
@@ -36,7 +36,7 @@ If you do not have a GitHub account or want to discuss a feature or bug with us 
 <a href="https://docs.pstream.mov/links/discord"><img src="https://discord.com/api/guilds/1267558147682205738/widget.png?style=banner2" alt="Discord Server"></a>
 
 ### GitHub Issues
-To make a GitHub issue for P-Stream, please visit the [new issue page](https://github.com/p-stream/p-stream/issues/new/choose) where you can pick either the "Bug Report" or "Feature Request" template.
+To make a GitHub issue for Nautics TV, please visit the [new issue page](https://github.com/p-stream/p-stream/issues/new/choose) where you can pick either the "Bug Report" or "Feature Request" template.
 
 When filling out an issue template, please include as much detail as possible and any screenshots or console logs as appropriate.
 
@@ -45,7 +45,7 @@ After an issue is created, it will be assigned either the https://github.com/p-s
 ## Before you start!
 Before starting a contribution, please check your contribution is part of an open issue on [our issues page](https://github.com/p-stream/p-stream/issues?q=is%3Aopen+is%3Aissue+label%3Aapproved). 
 
-GitHub issues are how we track our bugs and feature requests that will be implemented into P-Stream - all contributions **must** have an issue and be approved by a maintainer before a pull request can be worked on.
+GitHub issues are how we track our bugs and feature requests that will be implemented into Nautics TV - all contributions **must** have an issue and be approved by a maintainer before a pull request can be worked on.
 
 If a pull request is opened before an issue is created and accepted, you may risk having your pull request rejected! Always check with us before starting work on a feature - we don't want to waste your time!
 
@@ -55,7 +55,7 @@ If a pull request is opened before an issue is created and accepted, you may ris
 Also, make sure that the issue you would like to work on has been given the https://github.com/p-stream/p-stream/labels/approved label by a maintainer. Otherwise, if we reject the issue, it means your work will have gone to waste!
 
 ## Contributing
-If you're here because you'd like to work on an issue, amazing! Thank you for even considering contributing to P-Stream; it means a lot :heart:
+If you're here because you'd like to work on an issue, amazing! Thank you for even considering contributing to Nautics TV; it means a lot :heart:
 
 Firstly, make sure you've read the [Before you start!](#before-you-start) section!
 
@@ -64,12 +64,12 @@ When you have found a GitHub issue you would like to work on, you can request to
 If you are assigned to an issue but can't complete it for whatever reason, no problem! Just let us know, and we will open up the issue to have someone else assigned.
 
 ### Recommended Development Environment
-Our recommended development environment to work on P-Stream is:
+Our recommended development environment to work on Nautics TV is:
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [ESLint Extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [EditorConfig Extension](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig)
 
-When opening Visual Studio Code, you will be prompted to install our recommended extensions if they are not installed for you.
+When opening Visual Studio Code, you will be prompted to install our recommended extensions if they are not installed.
 
 Our project is set up to enforce formatting and code style standards using ESLint. 
 
@@ -78,12 +78,12 @@ Here are some tips to make sure that your pull requests are :pinched_fingers: fi
 
 - KISS - Keep It Simple Soldier! - Simple code makes readable and efficient code!
 - Follow standard best practices for TypeScript and React.
-- Keep as much as possible to the style of P-Stream. Look around our codebase to familiarise yourself with how we do things!
+- Keep as much as possible to the style of Nautics TV. Look around our codebase to familiarise yourself with how we do things!
 - Ensure to take note of the ESLint errors and warnings! **Do not ignore them!** They are there for a reason.
 - Test, test, test! Make sure you thoroughly test the features you are contributing.
 
 ### Language Contributions
-Language contributions help P-Stream massively, allowing people worldwide to use our app!
+Language contributions help Nautics TV massively, allowing people worldwide to use our app!
 
 We use Weblate for crowdsourcing our translations. [Click here to go to our translation tool.](https://docs.pstream.mov/links/weblate)
 
