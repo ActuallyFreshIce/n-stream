@@ -14,8 +14,6 @@ import { conf } from "@/setup/config";
 import { useBannerSize } from "@/stores/banner";
 import { usePreferencesStore } from "@/stores/preferences";
 
-import { BrandPill } from "./BrandPill";
-
 export interface NavigationProps {
   bg?: boolean;
   noLightbar?: boolean;
@@ -137,14 +135,14 @@ export function Navigation(props: NavigationProps) {
           <div className="px-7 py-5 relative z-[60] flex flex-1 items-center justify-between">
             <div className="flex items-center space-x-1.5 ssm:space-x-3 pointer-events-auto">
               <Link
-                 className="block tabbable rounded-full text-xs ssm:text-base"
-                 to="/"
-                 onClick={() => window.scrollTo(0, 0)}
-               >
+                className="block tabbable rounded-full text-xs ssm:text-base"
+                to="/"
+                onClick={() => window.scrollTo(0, 0)}
+              >
                 <img
-                    src="/nautics_logo.png"
-                    alt="Nautics TV"
-                    className="h-8 w-auto select-none"
+                  src="/nautics_logo.png"
+                  alt="Nautics TV"
+                  className="h-8 w-auto select-none"
                 />
               </Link>
               <a
