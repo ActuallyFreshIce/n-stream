@@ -140,7 +140,7 @@ export function Navigation(props: NavigationProps) {
                 onClick={() => window.scrollTo(0, 0)}
               >
                 <img
-                  src="/public/nautics.png"
+                  src="/nautics.png"
                   alt="Nautics TV"
                   className="h-8 w-auto select-none"
                 />
