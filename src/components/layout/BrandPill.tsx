@@ -18,13 +18,12 @@ export function BrandPill(props: {
           : "",
       )}
     >
-      
       <img
         src="/nautics.png"
         alt="Nautics"
         className={classNames(
           "h-8 object-contain select-none",
-          isMobile && props.header ? "hidden sm:block" : ""
+          isMobile && props.header ? "hidden sm:block" : "",
         )}
       />
     </div>
