@@ -1,8 +1,9 @@
 import {
   Fetcher,
   makeSimpleProxyFetcher,
-  setM3U8ProxyUrl,
 } from "@p-stream/providers";
+
+function setM3U8ProxyUrl(_url: string): void {}
 
 import { sendExtensionRequest } from "@/backend/extension/messaging";
 import { getApiToken, setApiToken } from "@/backend/helpers/providerApi";
