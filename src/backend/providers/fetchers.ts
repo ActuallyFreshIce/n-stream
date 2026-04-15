@@ -3,8 +3,6 @@ import {
   makeSimpleProxyFetcher,
 } from "@p-stream/providers";
 
-function setM3U8ProxyUrl(_url: string): void {}
-
 import { sendExtensionRequest } from "@/backend/extension/messaging";
 import { getApiToken, setApiToken } from "@/backend/helpers/providerApi";
 import {
@@ -14,6 +12,8 @@ import {
 } from "@/utils/proxyUrls";
 
 import { convertBodyToObject, getBodyTypeFromBody } from "../extension/request";
+
+function setM3U8ProxyUrl(_url: string): void {}
 
 function makeLoadbalancedList(getter: () => string[]) {
   let listIndex = -1;
