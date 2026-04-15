@@ -1,7 +1,8 @@
+"use client";
+
 import { ProviderControls, ScrapeMedia } from "@p-stream/providers";
-import classNames from "classnames";
-import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useEffect, useRef, useState } from "react";
 import { useMountedState } from "react-use";
 import type { AsyncReturnType } from "type-fest";
 
@@ -11,53 +12,72 @@ import {
 } from "@/backend/helpers/report";
 import { Button } from "@/components/buttons/Button";
 import { Loading } from "@/components/layout/Loading";
-import {
-  ScrapeCard,
-  ScrapeItem,
-} from "@/components/player/internals/ScrapeCard";
-import {
-  ScrapingItems,
-  ScrapingSegment,
-  useListCenter,
-  useScrape,
-} from "@/hooks/useProviderScrape";
-
-import { WarningPart } from "../util/WarningPart";
+import { isExtensionActiveCached } from "@/backend/extension/messaging";
+import { getLoadbalancedProviderApiUrl } from "@/backend/providers/fetchers";
+import { EnhancedScrapeDisplay, EnhancedScrapeItem } from "@/components/player/internals/EnhancedScrapeDisplay";
 
 export interface ScrapingProps {
   media: ScrapeMedia;
   onGetStream?: (stream: AsyncReturnType<ProviderControls["runAll"]>) => void;
   onResult?: (
-    sources: Record<string, ScrapingSegment>,
-    sourceOrder: ScrapingItems[],
+    sources: Record<string, any>,
+    sourceOrder: { id: string; children: string[] }[],
   ) => void;
+}
+
+function enhanceScrapeItem(item: any): EnhancedScrapeItem {
+  return {
+    id: item.id,
+    name: item.name,
+    type: item.embedId ? ("embed" as const) : ("source" as const),
+    status: item.status,
+    error: item.error?.message || item.error,
+    reason: item.reason,
+    percentage: item.percentage || 0,
+    duration: item.duration,
+    attempts: item.attempts || 1,
+    maxAttempts: item.maxAttempts || 1,
+    children: item.children,
+    embedId: item.embedId,
+    url: item.url,
+  };
 }
 
 export function ScrapingPart(props: ScrapingProps) {
   const { report } = useReportProviders();
   const { startScraping, sourceOrder, sources, currentSource } = useScrape();
   const isMounted = useMountedState();
-  const { t } = useTranslation();
-
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const listRef = useRef<HTMLDivElement | null>(null);
+  const [showDebug, setShowDebug] = useState(() => getShowDebug());
   const [failedStartScrape, setFailedStartScrape] = useState<boolean>(false);
-  const renderedOnce = useListCenter(
-    containerRef,
-    listRef,
-    sourceOrder,
-    currentSource,
+
+  useEffect(() => {
+    setShowDebug(getShowDebug());
+  }, []);
+
+  // Convert sources to enhanced format
+  const enhancedSources = Object.entries(sources || {}).reduce(
+    (acc, [key, value]) => {
+      acc[key] = enhanceScrapeItem({ ...value, startTime: Date.now() });
+      return acc;
+    },
+    {} as Record<string, EnhancedScrapeItem>
   );
 
-  const resultRef = useRef({
-    sourceOrder,
-    sources,
-  });
   useEffect(() => {
-    resultRef.current = {
-      sourceOrder,
-      sources,
-    };
+    Object.entries(sources || {}).forEach(([key, value]) => {
+      enhancedSources[key] = enhanceScrapeItem({
+        ...value,
+      });
+    });
+  }, [sources]);
+
+  const resultRef = useRef<{
+    sourceOrder: { id: string; children: string[] }[];
+    sources: Record<string, any>;
+  }>({ sourceOrder, sources });
+
+  useEffect(() => {
+    resultRef.current = { sourceOrder, sources };
   }, [sourceOrder, sources]);
 
   const started = useRef(false);
@@ -82,75 +102,26 @@ export function ScrapingPart(props: ScrapingProps) {
     })().catch(() => setFailedStartScrape(true));
   }, [startScraping, props, report, isMounted]);
 
-  let currentProviderIndex = sourceOrder.findIndex(
-    (s) => s.id === currentSource || s.children.includes(currentSource ?? ""),
-  );
-  if (currentProviderIndex === -1)
-    currentProviderIndex = sourceOrder.length - 1;
-
-  if (failedStartScrape)
-    return <WarningPart>{t("player.turnstile.error")}</WarningPart>;
+  if (failedStartScrape) return <WarningPart>{t("player.turnstile.error")}</WarningPart>;
 
   return (
-    <div
-      className="h-full w-full relative dir-neutral:origin-top-left flex"
-      ref={containerRef}
-    >
+    <div className="h-full w-full relative dir-neutral:origin-top-left flex">
       {!sourceOrder || sourceOrder.length === 0 ? (
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center flex flex-col justify-center z-0">
           <Loading className="mb-8" />
-          <p>{t("player.turnstile.verifyingHumanity")}</p>
+          <p>Initializing scrapers...</p>
         </div>
-      ) : null}
-      <div
-        className={classNames({
-          "absolute transition-[transform,opacity] opacity-0 dir-neutral:left-0": true,
-          "!opacity-100": renderedOnce,
-        })}
-        ref={listRef}
-      >
-        {sourceOrder.map((order) => {
-          const source = sources[order.id];
-          const distance = Math.abs(
-            sourceOrder.findIndex((o) => o.id === order.id) -
-              currentProviderIndex,
-          );
-          return (
-            <div
-              className="transition-opacity duration-100"
-              style={{ opacity: Math.max(0, 1 - distance * 0.3) }}
-              key={order.id}
-            >
-              <ScrapeCard
-                id={order.id}
-                name={source.name}
-                status={source.status}
-                hasChildren={order.children.length > 0}
-                percentage={source.percentage}
-              >
-                <div
-                  className={classNames({
-                    "space-y-6 mt-8": order.children.length > 0,
-                  })}
-                >
-                  {order.children.map((embedId) => {
-                    const embed = sources[embedId];
-                    return (
-                      <ScrapeItem
-                        id={embedId}
-                        name={embed.name}
-                        status={embed.status}
-                        percentage={embed.percentage}
-                        key={embedId}
-                      />
-                    );
-                  })}
-                </div>
-              </ScrapeCard>
-            </div>
-          );
-        })}
-      </div>
+      ) : (
+        <EnhancedScrapeDisplay
+          sourceOrder={sourceOrder}
+          sources={enhancedSources}
+          currentSource={currentSource}
+          media={props.media}
+          backendUrl={getLoadbalancedProviderApiUrl()}
+          extensionActive={isExtensionActiveCached()}
+          showDebug={showDebug}
+        />
+      )}
     </div>
   );
 }
@@ -194,4 +165,9 @@ export function Tips() {
       </p>
     </div>
   );
+}
+
+function getShowDebug(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem("debugShowDetails") === "true";
 }
