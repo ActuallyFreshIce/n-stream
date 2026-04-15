@@ -87,8 +87,8 @@ export function EnhancedScrapeDisplay({
             source.status === "success"
               ? "success"
               : source.status === "failure"
-              ? "error"
-              : "info",
+                ? "error"
+                : "info",
           sourceId: source.id,
           message: `${source.name}: ${source.status}`,
           details: source.error,
@@ -140,7 +140,9 @@ export function EnhancedScrapeDisplay({
   const totalSources = sourceOrder.length;
   const completedSources = Object.values(sources).filter(
     (s) =>
-      s.status === "success" || s.status === "failure" || s.status === "notfound",
+      s.status === "success" ||
+      s.status === "failure" ||
+      s.status === "notfound",
   ).length;
   const successfulSources = Object.values(sources).filter(
     (s) => s.status === "success",
@@ -348,11 +350,11 @@ export function EnhancedScrapeDisplay({
                             error: v.error || undefined,
                             reason: v.reason || undefined,
                           },
-                        ])
+                        ]),
                       ),
                     },
                     null,
-                    2
+                    2,
                   )}
                 </pre>
               </div>
@@ -374,7 +376,7 @@ export function EnhancedScrapeDisplay({
                         </span>
                         <span
                           className={`ml-2 px-1 rounded ${getEventBadgeColor(
-                            log.type
+                            log.type,
                           )}`}
                         >
                           {log.type}

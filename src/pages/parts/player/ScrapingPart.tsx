@@ -12,7 +12,10 @@ import {
 import { getLoadbalancedProviderApiUrl } from "@/backend/providers/fetchers";
 import { Button } from "@/components/buttons/Button";
 import { Loading } from "@/components/layout/Loading";
-import { EnhancedScrapeDisplay, EnhancedScrapeItem } from "@/components/player/internals/EnhancedScrapeDisplay";
+import {
+  EnhancedScrapeDisplay,
+  EnhancedScrapeItem,
+} from "@/components/player/internals/EnhancedScrapeDisplay";
 import {
   ScrapingItems,
   ScrapingSegment,
@@ -76,7 +79,7 @@ export function ScrapingPart(props: ScrapingProps) {
       acc[key] = enhanceScrapeItem({ ...value, startTime: Date.now() });
       return acc;
     },
-    {} as Record<string, EnhancedScrapeItem>
+    {} as Record<string, EnhancedScrapeItem>,
   );
 
   useEffect(() => {
