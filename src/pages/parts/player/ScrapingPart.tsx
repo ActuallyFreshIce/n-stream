@@ -1,23 +1,23 @@
 import { ProviderControls, ScrapeMedia } from "@p-stream/providers";
-import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useMountedState } from "react-use";
 import type { AsyncReturnType } from "type-fest";
 
+import { isExtensionActiveCached } from "@/backend/extension/messaging";
 import {
   scrapePartsToProviderMetric,
   useReportProviders,
 } from "@/backend/helpers/report";
-import { isExtensionActiveCached } from "@/backend/extension/messaging";
 import { getLoadbalancedProviderApiUrl } from "@/backend/providers/fetchers";
+import { Button } from "@/components/buttons/Button";
+import { Loading } from "@/components/layout/Loading";
 import { EnhancedScrapeDisplay, EnhancedScrapeItem } from "@/components/player/internals/EnhancedScrapeDisplay";
 import {
   ScrapingItems,
   ScrapingSegment,
   useScrape,
 } from "@/hooks/useProviderScrape";
-import { Button } from "@/components/buttons/Button";
-import { Loading } from "@/components/layout/Loading";
 
 import { WarningPart } from "../util/WarningPart";
 
@@ -35,7 +35,7 @@ function getShowDebug(): boolean {
   return localStorage.getItem("debugShowDetails") === "true";
 }
 
-function setShowDebug(show: boolean) {
+function persistShowDebug(show: boolean) {
   if (typeof window === "undefined") return;
   localStorage.setItem("debugShowDetails", String(show));
 }
@@ -67,8 +67,8 @@ export function ScrapingPart(props: ScrapingProps) {
   const [failedStartScrape, setFailedStartScrape] = useState<boolean>(false);
 
   useEffect(() => {
-    setShowDebug(getShowDebug());
-  }, []);
+    persistShowDebug(showDebug);
+  }, [showDebug]);
 
   // Convert sources to enhanced format
   const enhancedSources = Object.entries(sources || {}).reduce(
@@ -119,9 +119,7 @@ export function ScrapingPart(props: ScrapingProps) {
   }, [startScraping, props, report, isMounted]);
 
   const handleToggleDebug = () => {
-    const newValue = !showDebug;
-    setShowDebug(newValue);
-    setShowDebug(newValue);
+    setShowDebug(!showDebug);
   };
 
   if (failedStartScrape) {
@@ -147,6 +145,47 @@ export function ScrapingPart(props: ScrapingProps) {
           onToggleDebug={handleToggleDebug}
         />
       )}
+    </div>
+  );
+}
+
+export function ScrapingPartInterruptButton() {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex gap-3 pb-3">
+      <Button
+        href="/"
+        theme="secondary"
+        padding="md:px-17 p-3"
+        className="mt-6"
+      >
+        {t("notFound.goHome")}
+      </Button>
+      <Button
+        onClick={() => window.location.reload()}
+        theme="purple"
+        padding="md:px-17 p-3"
+        className="mt-6"
+      >
+        {t("notFound.reloadButton")}
+      </Button>
+    </div>
+  );
+}
+
+export function Tips() {
+  const { t } = useTranslation();
+  const [tip] = useState(() => {
+    const randomIndex = Math.floor(Math.random() * 11) + 1;
+    return t(`player.scraping.tips.${randomIndex}`);
+  });
+
+  return (
+    <div className="flex flex-col gap-3">
+      <p className="text-type-secondary text-center text-sm text-bold">
+        Tip: {tip}
+      </p>
     </div>
   );
 }

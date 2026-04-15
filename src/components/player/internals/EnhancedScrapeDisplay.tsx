@@ -28,7 +28,13 @@ export interface EnhancedScrapeItem {
   id: string;
   name: string;
   type: "source" | "embed";
-  status: "waiting" | "pending" | "success" | "failure" | "notfound" | "skipped";
+  status:
+    | "waiting"
+    | "pending"
+    | "success"
+    | "failure"
+    | "notfound"
+    | "skipped";
   error?: string;
   reason?: string;
   percentage: number;
@@ -58,14 +64,14 @@ interface EnhancedScrapeDisplayProps {
 export function EnhancedScrapeDisplay({
   sourceOrder,
   sources,
-  currentSource,
+  currentSource: _currentSource,
   media,
   backendUrl,
   extensionActive,
   showDebug = false,
   onToggleDebug,
 }: EnhancedScrapeDisplayProps) {
-  const { t } = useTranslation();
+  const { t: _t } = useTranslation();
   const [logs, setLogs] = useState<DetailedScrapeEvent[]>([]);
 
   useEffect(() => {
@@ -133,11 +139,14 @@ export function EnhancedScrapeDisplay({
   // Calculate stats
   const totalSources = sourceOrder.length;
   const completedSources = Object.values(sources).filter(
-    (s) => s.status === "success" || s.status === "failure" || s.status === "notfound"
+    (s) =>
+      s.status === "success" || s.status === "failure" || s.status === "notfound",
   ).length;
-  const successfulSources = Object.values(sources).filter((s) => s.status === "success").length;
+  const successfulSources = Object.values(sources).filter(
+    (s) => s.status === "success",
+  ).length;
   const failedSources = Object.values(sources).filter(
-    (s) => s.status === "failure" || s.status === "notfound"
+    (s) => s.status === "failure" || s.status === "notfound",
   ).length;
 
   return (
@@ -152,7 +161,8 @@ export function EnhancedScrapeDisplay({
             <button
               type="button"
               onClick={onToggleDebug}
-              className="px-3 py-1 text-sm bg-video-scraping-card bg-opacity-50 rounded-md text-type-secondary hover:text-white transition-colors">
+              className="px-3 py-1 text-sm bg-video-scraping-card bg-opacity-50 rounded-md text-type-secondary hover:text-white transition-colors"
+            >
               {showDebug ? "Hide Log" : "Show Log"}
             </button>
           </div>
@@ -163,7 +173,7 @@ export function EnhancedScrapeDisplay({
               className="bg-purple-500 h-2 rounded-full transition-all duration-500"
               style={{
                 width: `${Math.round(
-                  (completedSources / Math.max(totalSources, 1)) * 100
+                  (completedSources / Math.max(totalSources, 1)) * 100,
                 )}%`,
               }}
             />
@@ -178,11 +188,15 @@ export function EnhancedScrapeDisplay({
               <div className="text-type-secondary">Successful</div>
             </div>
             <div className="text-center p-3 bg-video-scraping-card bg-opacity-30 rounded-lg">
-              <div className="text-red-400 text-xl font-bold">{failedSources}</div>
+              <div className="text-red-400 text-xl font-bold">
+                {failedSources}
+              </div>
               <div className="text-type-secondary">Failed</div>
             </div>
             <div className="text-center p-3 bg-video-scraping-card bg-opacity-30 rounded-lg">
-              <div className="text-blue-400 text-xl font-bold">{totalSources}</div>
+              <div className="text-blue-400 text-xl font-bold">
+                {totalSources}
+              </div>
               <div className="text-type-secondary">Total</div>
             </div>
           </div>
@@ -211,7 +225,8 @@ export function EnhancedScrapeDisplay({
                 return (
                   <div
                     key={source.id}
-                    className="bg-video-scraping-card bg-opacity-50 rounded-lg p-4">
+                    className="bg-video-scraping-card bg-opacity-50 rounded-lg p-4"
+                  >
                     <div className="flex items-center gap-3 mb-3">
                       <StatusCircle
                         type={statusToCircle(source.status)}
@@ -222,7 +237,8 @@ export function EnhancedScrapeDisplay({
                           {source.name}
                         </h4>
                         <p className="text-type-secondary text-sm">
-                          {statusTextMap[source.status] || statusTextMap.pending}
+                          {statusTextMap[source.status] ||
+                            statusTextMap.pending}
                         </p>
                         {source.duration && (
                           <p className="text-type-secondary text-xs mt-1">
@@ -319,9 +335,7 @@ export function EnhancedScrapeDisplay({
 
               {/* Raw Debug Data */}
               <div className="bg-black/50 rounded-lg p-4">
-                <h4 className="font-semibold text-white mb-2">
-                  Scraper Data
-                </h4>
+                <h4 className="font-semibold text-white mb-2">Scraper Data</h4>
                 <pre className="text-xs text-type-secondary overflow-x-auto">
                   {JSON.stringify(
                     {
@@ -350,13 +364,18 @@ export function EnhancedScrapeDisplay({
                     Recent Events
                   </h4>
                   <div className="space-y-1 text-xs font-mono">
-                    {logs.map((log, i) => (
-                      <div key={String(i)} className="py-1 border-b border-gray-800/50">
+                    {logs.map((log) => (
+                      <div
+                        key={log.timestamp}
+                        className="py-1 border-b border-gray-800/50"
+                      >
                         <span className="text-gray-500">
                           {new Date(log.timestamp).toLocaleTimeString()}
                         </span>
                         <span
-                          className={`ml-2 px-1 rounded ${getEventBadgeColor(log.type)}`}
+                          className={`ml-2 px-1 rounded ${getEventBadgeColor(
+                            log.type
+                          )}`}
                         >
                           {log.type}
                         </span>
