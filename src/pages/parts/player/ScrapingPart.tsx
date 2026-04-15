@@ -1,5 +1,3 @@
-"use client";
-
 import { ProviderControls, ScrapeMedia } from "@p-stream/providers";
 import { useTranslation } from "react-i18next";
 import { useEffect, useRef, useState } from "react";
@@ -10,11 +8,18 @@ import {
   scrapePartsToProviderMetric,
   useReportProviders,
 } from "@/backend/helpers/report";
-import { Button } from "@/components/buttons/Button";
-import { Loading } from "@/components/layout/Loading";
 import { isExtensionActiveCached } from "@/backend/extension/messaging";
 import { getLoadbalancedProviderApiUrl } from "@/backend/providers/fetchers";
 import { EnhancedScrapeDisplay, EnhancedScrapeItem } from "@/components/player/internals/EnhancedScrapeDisplay";
+import {
+  ScrapingItems,
+  ScrapingSegment,
+  useScrape,
+} from "@/hooks/useProviderScrape";
+import { Button } from "@/components/buttons/Button";
+import { Loading } from "@/components/layout/Loading";
+
+import { WarningPart } from "../util/WarningPart";
 
 export interface ScrapingProps {
   media: ScrapeMedia;
@@ -23,6 +28,16 @@ export interface ScrapingProps {
     sources: Record<string, any>,
     sourceOrder: { id: string; children: string[] }[],
   ) => void;
+}
+
+function getShowDebug(): boolean {
+  if (typeof window === "undefined") return false;
+  return localStorage.getItem("debugShowDetails") === "true";
+}
+
+function setShowDebug(show: boolean) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("debugShowDetails", String(show));
 }
 
 function enhanceScrapeItem(item: any): EnhancedScrapeItem {
@@ -44,6 +59,7 @@ function enhanceScrapeItem(item: any): EnhancedScrapeItem {
 }
 
 export function ScrapingPart(props: ScrapingProps) {
+  const { t } = useTranslation();
   const { report } = useReportProviders();
   const { startScraping, sourceOrder, sources, currentSource } = useScrape();
   const isMounted = useMountedState();
@@ -69,7 +85,7 @@ export function ScrapingPart(props: ScrapingProps) {
         ...value,
       });
     });
-  }, [sources]);
+  }, [sources]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const resultRef = useRef<{
     sourceOrder: { id: string; children: string[] }[];
@@ -102,7 +118,15 @@ export function ScrapingPart(props: ScrapingProps) {
     })().catch(() => setFailedStartScrape(true));
   }, [startScraping, props, report, isMounted]);
 
-  if (failedStartScrape) return <WarningPart>{t("player.turnstile.error")}</WarningPart>;
+  const handleToggleDebug = () => {
+    const newValue = !showDebug;
+    setShowDebug(newValue);
+    setShowDebug(newValue);
+  };
+
+  if (failedStartScrape) {
+    return <WarningPart>{t("player.turnstile.error")}</WarningPart>;
+  }
 
   return (
     <div className="h-full w-full relative dir-neutral:origin-top-left flex">
@@ -120,54 +144,9 @@ export function ScrapingPart(props: ScrapingProps) {
           backendUrl={getLoadbalancedProviderApiUrl()}
           extensionActive={isExtensionActiveCached()}
           showDebug={showDebug}
+          onToggleDebug={handleToggleDebug}
         />
       )}
     </div>
   );
-}
-
-export function ScrapingPartInterruptButton() {
-  const { t } = useTranslation();
-
-  return (
-    <div className="flex gap-3 pb-3">
-      <Button
-        href="/"
-        theme="secondary"
-        padding="md:px-17 p-3"
-        className="mt-6"
-      >
-        {t("notFound.goHome")}
-      </Button>
-      <Button
-        onClick={() => window.location.reload()}
-        theme="purple"
-        padding="md:px-17 p-3"
-        className="mt-6"
-      >
-        {t("notFound.reloadButton")}
-      </Button>
-    </div>
-  );
-}
-
-export function Tips() {
-  const { t } = useTranslation();
-  const [tip] = useState(() => {
-    const randomIndex = Math.floor(Math.random() * 11) + 1;
-    return t(`player.scraping.tips.${randomIndex}`);
-  });
-
-  return (
-    <div className="flex flex-col gap-3">
-      <p className="text-type-secondary text-center text-sm text-bold">
-        Tip: {tip}
-      </p>
-    </div>
-  );
-}
-
-function getShowDebug(): boolean {
-  if (typeof window === "undefined") return false;
-  return localStorage.getItem("debugShowDetails") === "true";
 }
