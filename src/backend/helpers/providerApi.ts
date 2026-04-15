@@ -60,7 +60,9 @@ function scrapeMediaToQueryMedia(media: ScrapeMedia) {
 
 function addQueryDataToUrl(url: URL, data: Record<string, string | undefined>) {
   Object.entries(data).forEach((entry) => {
-    if (entry[1]) url.searchParams.set(entry[0], entry[1]);
+    if (entry[1] !== undefined && entry[1] !== null) {
+      url.searchParams.set(entry[0], entry[1]);
+    }
   });
 }
 
